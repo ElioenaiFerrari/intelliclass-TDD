@@ -1,11 +1,11 @@
 require('dotenv/config');
-const { disconnect } = require('../utils');
-const database = require('../../src/config/database');
+const mongoose = require('mongoose');
+const { disconnect, connect } = require('../utils');
 
 describe('MongoDB', () => {
   it('verify connection on success', async () => {
-    const connect = await database(process.env.DATABASE_URL);
-    const { readyState } = connect.connection;
+    await connect();
+    const { readyState } = mongoose.connection;
 
     expect(readyState).toBe(1);
 

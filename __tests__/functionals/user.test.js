@@ -1,15 +1,14 @@
 require('dotenv/config');
-const database = require('../../src/config/database');
 const User = require('../../src/models/user');
-const { disconnect, dropDatabase } = require('../utils');
+const { disconnect, connect, drop } = require('../utils');
 
 describe('User', () => {
-  beforeEach(async () => {
-    await database(process.env.DATABASE_URL);
+  beforeAll(async () => {
+    await connect();
   });
 
-  afterEach(async () => {
-    await dropDatabase();
+  afterAll(async () => {
+    await drop();
     await disconnect();
   });
 
@@ -55,6 +54,8 @@ describe('User', () => {
     const users = await User.find();
 
     expect(users.length).not.toBe(0);
+
+    await drop();
   });
 
   it('delete user by valid email', async () => {
@@ -63,7 +64,7 @@ describe('User', () => {
 
     expect(user.email).toBe(params.email);
 
-    await user.deleteOne();
+    await User.deleteOne({ email: params.email });
     const deletedUser = await User.findOne({ email: params.email });
 
     expect(deletedUser).toBe(null);
