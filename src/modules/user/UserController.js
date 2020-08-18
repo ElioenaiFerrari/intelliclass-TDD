@@ -12,11 +12,39 @@ module.exports = {
     }
   },
 
+  async show(req = request, res = response) {
+    try {
+      const { id } = req.params;
+
+      const user = await User.findOne({ _id: id });
+
+      return res.status(200).json({ user });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  },
+
   async store(req = request, res = response) {
     try {
       const user = await User.create(req.body);
 
       return res.status(201).json({ user });
+    } catch (error) {
+      return res.status(400).json({ error });
+    }
+  },
+
+  async update(req = request, res = response) {
+    try {
+      const { id } = req.params;
+      const user = await User.findOne({ _id: id });
+
+      if (!user) {
+        return res.status(404).send();
+      }
+      const updatedUser = await user.update(req.body);
+
+      return res.status(200).json({ user: updatedUser });
     } catch (error) {
       return res.status(400).json({ error });
     }

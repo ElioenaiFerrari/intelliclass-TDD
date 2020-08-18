@@ -23,7 +23,25 @@ describe('User', () => {
     expect(status).toBe(200);
   });
 
-  it('verify if POST /users return 201 and create user', async () => {
+  it('verify if GET /users/:id return 200 and user', async () => {
+    const user = await User.create(params);
+    const { status, body } = await request(app).get(`/users/${user._id}`);
+
+    expect(body.user._id).not.toBe(null);
+    expect(status).toBe(200);
+  });
+
+  it('verify if PUT /users return 200 and update user', async () => {
+    const user = await User.create(params);
+    const { status, body } = await request(app).put(`/users/${user._id}`).send({
+      email: 'test@test.com',
+    });
+
+    expect(body.user.email).not.toBe(user.email);
+    expect(status).toBe(200);
+  });
+
+  it('verify if POST /users/:id return 200 and create user', async () => {
     const { status, body } = await request(app).post('/users').send(params);
 
     expect(body.user.email).toEqual(params.email);
