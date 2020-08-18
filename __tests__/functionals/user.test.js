@@ -6,9 +6,8 @@ describe('User', () => {
   beforeAll(async () => {
     await disconnect();
     await connect();
+    await drop();
   });
-
-  afterAll(async () => await drop());
 
   const params = {
     name: 'Elioenai Ferrari',
@@ -32,7 +31,6 @@ describe('User', () => {
     const user = await User.create(params);
 
     expect(user.email).toBe(params.email);
-    await drop();
   });
 
   it('get user by valid email', async () => {
@@ -40,7 +38,6 @@ describe('User', () => {
     const user = await User.findOne({ email: params.email });
 
     expect(user.email).toBe(params.email);
-    await drop();
   });
 
   it('get user by invalid email', async () => {
@@ -54,17 +51,16 @@ describe('User', () => {
     const users = await User.find();
 
     expect(users.length).not.toBe(0);
-    await drop();
   });
 
-  it('delete user by valid email', async () => {
-    await User.create(params);
-    const user = await User.findOne({ email: params.email });
+  it('delete user by valid id', async () => {
+    const createdUser = await User.create(params);
+    const fetchedUser = await User.findOne({ _id: createdUser._id });
 
-    expect(user.email).toBe(params.email);
+    expect(fetchedUser.email).toBe(createdUser.email);
 
-    await User.deleteOne({ email: params.email });
-    const deletedUser = await User.findOne({ email: params.email });
+    await User.deleteOne({ _id: fetchedUser._id });
+    const deletedUser = await User.findOne({ _id: createdUser._id });
 
     expect(deletedUser).toBe(null);
   });
