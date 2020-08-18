@@ -29,4 +29,11 @@ describe('User', () => {
     expect(body.user.email).toEqual(params.email);
     expect(status).toBe(201);
   });
+
+  it('verify if DELETE /users/:id return 200 and delete user', async () => {
+    const { status, body } = await request(app).post('/users').send(params);
+
+    expect(body.user.email).toEqual(params.email);
+    expect(status).toBe(201);
+  });
 });
