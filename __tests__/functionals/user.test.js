@@ -1,5 +1,5 @@
 require('dotenv/config');
-const User = require('../../src/models/user');
+const User = require('../../src/modules/user/User');
 const { disconnect, connect, drop } = require('../utils');
 
 describe('User', () => {

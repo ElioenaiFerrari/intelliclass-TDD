@@ -1,4 +1,4 @@
-const User = require('../../src/models/user');
+const User = require('../../src/modules/user/User');
 const auth = require('../../src/middlewares/auth');
 const { disconnect, connect, drop } = require('../utils');
 
