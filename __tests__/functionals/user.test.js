@@ -8,6 +8,8 @@ describe('User', () => {
     await connect();
   });
 
+  afterAll(async () => await drop());
+
   const params = {
     name: 'Elioenai Ferrari',
     email: 'elioenaiferrari@gmail.com',
@@ -30,6 +32,7 @@ describe('User', () => {
     const user = await User.create(params);
 
     expect(user.email).toBe(params.email);
+    await drop();
   });
 
   it('get user by valid email', async () => {
@@ -37,6 +40,7 @@ describe('User', () => {
     const user = await User.findOne({ email: params.email });
 
     expect(user.email).toBe(params.email);
+    await drop();
   });
 
   it('get user by invalid email', async () => {
@@ -50,7 +54,6 @@ describe('User', () => {
     const users = await User.find();
 
     expect(users.length).not.toBe(0);
-
     await drop();
   });
 

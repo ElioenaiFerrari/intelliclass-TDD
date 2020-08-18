@@ -36,9 +36,9 @@ module.exports = {
 
       await User.deleteOne({ _id: user._id });
 
-      return res.status(200).json({ success: true });
-    } catch (error) {
-      return res.status(400).json({ error });
+      return res.status(200).send();
+    } catch (_) {
+      return res.status(400).json({ error: 'bad request' });
     }
   },
 };

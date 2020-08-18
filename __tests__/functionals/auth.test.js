@@ -8,6 +8,8 @@ describe('Auth', () => {
     await connect();
   });
 
+  afterAll(async () => await drop());
+
   const params = {
     name: 'Elioenai Ferrari',
     email: 'elioenaiferrari@gmail.com',
@@ -18,8 +20,6 @@ describe('Auth', () => {
     const user = await User.create(params);
 
     expect(user.password_hash).not.toBe(params.password_hash);
-
-    await drop();
   });
 
   it('verify if password is valid', async () => {
@@ -29,7 +29,6 @@ describe('Auth', () => {
     const isValid = await auth.check(password, user.password_hash);
 
     expect(isValid).toBe(true);
-    await drop();
   });
 
   it('verify if password is invalid', async () => {
@@ -39,7 +38,6 @@ describe('Auth', () => {
     const isValid = await auth.check(password, user.password_hash);
 
     expect(isValid).toBe(false);
-    await drop();
   });
 
   it('verify if token as been created', async () => {
@@ -47,7 +45,6 @@ describe('Auth', () => {
     const token = await auth.generateToken({ user }, process.env.SECRET);
 
     expect(token).not.toBe(null);
-    await drop();
   });
 
   it('verify if two hashs has equal', async () => {
@@ -55,7 +52,6 @@ describe('Auth', () => {
     const hashTwo = await auth.generateToken({ params }, process.env.SECRET);
 
     expect(hashOne).toEqual(hashTwo);
-    await drop();
   });
 
   it('verify if two hashs has different', async () => {
@@ -63,6 +59,5 @@ describe('Auth', () => {
     const hashTwo = await auth.generateToken({ params }, 'otherSecret');
 
     expect(hashOne).not.toEqual(hashTwo);
-    await drop();
   });
 });
