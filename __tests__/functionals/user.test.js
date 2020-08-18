@@ -1,6 +1,6 @@
 require('dotenv/config');
 const User = require('../../src/modules/user/User');
-const { disconnect, connect, drop } = require('../utils');
+const { disconnect, connect } = require('../utils');
 
 describe('User', () => {
   beforeAll(async () => {

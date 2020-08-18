@@ -1,6 +1,6 @@
 const User = require('../../src/modules/user/User');
 const auth = require('../../src/middlewares/auth');
-const { disconnect, connect, drop } = require('../utils');
+const { disconnect, connect } = require('../utils');
 
 describe('Auth', () => {
   beforeAll(async () => {
