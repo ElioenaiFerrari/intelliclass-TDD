@@ -6,6 +6,7 @@ const cors = require('cors');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+require('../modules/user/routes')(app);
 app.use(morgan('dev'));
 app.use(cors({ origin: true }));
 

@@ -4,12 +4,8 @@ const { disconnect, connect, drop } = require('../utils');
 
 describe('Auth', () => {
   beforeAll(async () => {
-    await connect();
-  });
-
-  afterAll(async () => {
-    await drop();
     await disconnect();
+    await connect();
   });
 
   const params = {
