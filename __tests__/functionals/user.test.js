@@ -6,7 +6,6 @@ describe('User', () => {
   beforeAll(async () => {
     await disconnect();
     await connect();
-    await drop();
   });
 
   const params = {

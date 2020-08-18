@@ -17,7 +17,7 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "dev": "nodemon src/server.js",
-    "posttest": "node __tests__/utils/index.js"
+    "pretest": "mongo tdd --eval \"db.dropDatabase()\""
   },
   "_moduleAliases": {
     "@": "src/"

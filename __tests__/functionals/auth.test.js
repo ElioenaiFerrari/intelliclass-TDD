@@ -6,7 +6,6 @@ describe('Auth', () => {
   beforeAll(async () => {
     await disconnect();
     await connect();
-    await drop();
   });
 
   const params = {
