@@ -17,9 +17,9 @@
   "scripts": {
     "test": "NODE_ENV=test jest",
     "dev": "nodemon src/server.js",
-    "pretest": "mongo tdd --eval \"db.dropDatabase()\""
+    "pretest": "sudo docker exec mongodb mongo intelliclass-tdd --eval \"db.dropDatabase()\""
   },
   "_moduleAliases": {
-    "@": "src/"
+    "@/": "src/"
   }
 }
