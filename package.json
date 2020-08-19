@@ -23,5 +23,8 @@
   },
   "_moduleAliases": {
     "@": "src/"
-  }
+  },
+  "_moduleDirectories": [
+    "node_modules"
+  ]
 }

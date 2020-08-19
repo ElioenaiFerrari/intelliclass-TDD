@@ -1,10 +1,14 @@
 const router = require('express').Router();
-const UserController = require('./UserController');
+const index = require('./index');
+const update = require('./update');
+const show = require('./show');
+const store = require('./store');
+const destroy = require('./destroy');
 
-router.get('/', UserController.index);
-router.get('/:id', UserController.show);
-router.post('/', UserController.store);
-router.delete('/:id', UserController.destroy);
-router.put('/:id', UserController.update);
+router.get('/', index);
+router.get('/:id', show);
+router.post('/', store);
+router.delete('/:id', destroy);
+router.put('/:id', update);
 
 module.exports = (app) => app.use('/users', router);
