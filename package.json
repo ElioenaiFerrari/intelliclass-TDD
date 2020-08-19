@@ -20,6 +20,6 @@
     "pretest": "sudo docker exec mongodb mongo intelliclass-tdd --eval \"db.dropDatabase()\""
   },
   "_moduleAliases": {
-    "@/": "src/"
+    "@": "src/"
   }
 }
