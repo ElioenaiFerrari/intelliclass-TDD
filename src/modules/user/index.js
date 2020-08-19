@@ -1,13 +1,12 @@
-const { request, response } = require('express');
+const { response } = require('express');
 const User = require('./User');
+const { ok, badRequest } = require('../../utils/handleResponse');
 
-async function index(_, res = response) {
+function index(_, res = response) {
   try {
-    const users = await User.find();
-
-    return res.status(200).json({ users });
+    return User.find().then((users) => ok(res)(users));
   } catch (error) {
-    return res.status(400).json({ error });
+    return badRequest(res)(error);
   }
 }
 

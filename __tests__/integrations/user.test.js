@@ -60,6 +60,6 @@ describe('User', () => {
     const { status, body } = await request(app).delete(`/users/123123`);
 
     expect(status).toBe(400);
-    expect(body.error).toBe('bad request');
+    expect(body.message).toBe('bad request');
   });
 });

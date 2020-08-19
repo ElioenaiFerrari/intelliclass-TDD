@@ -1,23 +1,25 @@
 const { request, response } = require('express');
 const User = require('./User');
+const { ok, badRequest } = require('../../utils/handleResponse');
 
-async function destroy(req = request, res = response) {
+const deleteUser = (user) => {
+  if (!user) {
+    return badRequest(res);
+  }
+
+  return new Promise((resolve, _) => resolve(user.deleteOne()));
+};
+
+function destroy(req = request, res = response) {
   try {
     const { id } = req.params;
 
-    const user = await User.findOne({ _id: id });
-
-    if (!user) {
-      return res.status(404).json({
-        error: 'not found',
-      });
-    }
-
-    await User.deleteOne({ _id: user._id });
-
-    return res.status(200).send();
-  } catch (_) {
-    return res.status(400).json({ error: 'bad request' });
+    User.findOne({ _id: id })
+      .then(deleteUser)
+      .then((_) => ok(res)(null))
+      .catch((error) => badRequest(res)(error));
+  } catch (error) {
+    return badRequest(res)(error);
   }
 }
 
