@@ -6,8 +6,8 @@ const store = require('./store');
 const destroy = require('./destroy');
 
 router.get('/', index);
-router.get('/:id', show);
 router.post('/', store);
+router.get('/:id', show);
 router.delete('/:id', destroy);
 router.put('/:id', update);
 
