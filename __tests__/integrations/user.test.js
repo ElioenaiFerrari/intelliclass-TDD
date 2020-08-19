@@ -28,8 +28,6 @@ describe('User', () => {
     const user = await factory.create('User');
     const { status, body } = await request(app).get(`/users/${user._id}`);
 
-    console.log(body);
-
     expect(body.data._id).not.toBe(null);
     expect(status).toBe(200);
   });
