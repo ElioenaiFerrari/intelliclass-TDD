@@ -1,6 +1,7 @@
 require('dotenv/config');
 const User = require('../../src/modules/user/User');
 const { disconnect, connect } = require('../utils');
+const factory = require('../factory');
 
 describe('User', () => {
   beforeAll(async () => {
@@ -27,13 +28,13 @@ describe('User', () => {
   });
 
   it('verify if User has created in database', async () => {
-    const user = await User.create(params);
+    const user = await factory.create('User', params);
 
     expect(user.email).toBe(params.email);
   });
 
   it('get user by valid email', async () => {
-    await User.create(params);
+    await factory.create('User', params);
     const user = await User.findOne({ email: params.email });
 
     expect(user.email).toBe(params.email);
@@ -46,7 +47,7 @@ describe('User', () => {
   });
 
   it('get all users', async () => {
-    await User.create(params);
+    await factory.create('User');
     const users = await User.find();
 
     expect(users.length).not.toBe(0);

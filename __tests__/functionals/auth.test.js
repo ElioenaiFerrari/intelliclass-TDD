@@ -1,6 +1,7 @@
 const User = require('../../src/modules/user/User');
 const auth = require('../../src/middlewares/auth');
 const { disconnect, connect } = require('../utils');
+const factory = require('../factory');
 
 describe('Auth', () => {
   beforeAll(async () => {
@@ -15,13 +16,15 @@ describe('Auth', () => {
   };
 
   it('verify if password has encrypted', async () => {
-    const user = await User.create(params);
+    const user = await factory.create('User');
 
     expect(user.password_hash).not.toBe(params.password_hash);
   });
 
   it('verify if password is valid', async () => {
-    const user = await User.create(params);
+    const user = await factory.create('User', {
+      password_hash: '123123',
+    });
     const password = '123123';
 
     const isValid = await auth.check(password, user.password_hash);
@@ -30,8 +33,9 @@ describe('Auth', () => {
   });
 
   it('verify if password is invalid', async () => {
-    const user = await User.create(params);
-    const password = '123';
+    const user = await factory.create('User');
+
+    const password = '123123';
 
     const isValid = await auth.check(password, user.password_hash);
 
@@ -39,7 +43,7 @@ describe('Auth', () => {
   });
 
   it('verify if token as been created', async () => {
-    const user = await User.create(params);
+    const user = await factory.create('User');
     const token = await auth.generateToken({ user }, process.env.SECRET);
 
     expect(token).not.toBe(null);

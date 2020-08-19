@@ -2,6 +2,7 @@ const request = require('supertest');
 const app = require('../../src/config/app');
 const User = require('../../src/modules/user/User');
 const { connect, disconnect, drop } = require('../utils');
+const factory = require('../factory');
 
 describe('User', () => {
   beforeAll(async () => {
@@ -16,7 +17,7 @@ describe('User', () => {
   };
 
   it('verify if GET /users return 200 and users', async () => {
-    await User.create(params);
+    await factory.create('User');
     const { status, body } = await request(app).get('/users');
 
     expect(body.users).not.toBe([]);
@@ -24,15 +25,15 @@ describe('User', () => {
   });
 
   it('verify if GET /users/:id return 200 and user', async () => {
-    const user = await User.create(params);
+    const user = await factory.create('User');
     const { status, body } = await request(app).get(`/users/${user._id}`);
 
     expect(body.user._id).not.toBe(null);
     expect(status).toBe(200);
   });
 
-  it('verify if PUT /users return 200 and update user', async () => {
-    const user = await User.create(params);
+  it('verify if PUT /users/:id return 200 and update user', async () => {
+    const user = await factory.create('User');
     const { status, body } = await request(app).put(`/users/${user._id}`).send({
       email: 'test@test.com',
     });
@@ -41,7 +42,7 @@ describe('User', () => {
     expect(status).toBe(200);
   });
 
-  it('verify if POST /users/:id return 200 and create user', async () => {
+  it('verify if POST /users return 200 and create user', async () => {
     const { status, body } = await request(app).post('/users').send(params);
 
     expect(body.user.email).toEqual(params.email);
