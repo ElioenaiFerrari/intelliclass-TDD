@@ -28,7 +28,9 @@ describe('User', () => {
     const user = await factory.create('User');
     const { status, body } = await request(app).get(`/users/${user._id}`);
 
-    expect(body.user._id).not.toBe(null);
+    console.log(body);
+
+    expect(body.data._id).not.toBe(null);
     expect(status).toBe(200);
   });
 
