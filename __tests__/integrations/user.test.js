@@ -20,7 +20,7 @@ describe('User', () => {
     await factory.create('User');
     const { status, body } = await request(app).get('/users');
 
-    expect(body.users).not.toBe([]);
+    expect(body.data).not.toBe([]);
     expect(status).toBe(200);
   });
 
@@ -38,20 +38,22 @@ describe('User', () => {
       email: 'test@test.com',
     });
 
-    expect(body.user.email).not.toBe(user.email);
+    console.log(body);
+
+    expect(body.data.email).not.toBe(user.email);
     expect(status).toBe(200);
   });
 
   it('verify if POST /users return 200 and create user', async () => {
     const { status, body } = await request(app).post('/users').send(params);
 
-    expect(body.user.email).toEqual(params.email);
+    expect(body.data.email).toEqual(params.email);
     expect(status).toBe(201);
   });
 
   it('verify if DELETE /users/:id return 200 and delete user', async () => {
     const { body } = await request(app).post('/users').send(params);
-    const { status } = await request(app).delete(`/users/${body.user._id}`);
+    const { status } = await request(app).delete(`/users/${body.data._id}`);
 
     expect(status).toBe(200);
   });

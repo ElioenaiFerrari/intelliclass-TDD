@@ -1,13 +1,22 @@
 const { request, response } = require('express');
 const User = require('./User');
+const { badRequest, created } = require('../../utils/handleResponse');
 
-async function store(req = request, res = response) {
+const onCreateUser = (res, user) => {
+  if (!user._id) {
+    return badRequest(res)(user);
+  }
+
+  return new Promise((resolve, _) => resolve(created(res)(user)));
+};
+
+function store(req = request, res = response) {
   try {
-    const user = await User.create(req.body);
-
-    return res.status(201).json({ user });
+    User.create(req.body)
+      .then((user) => onCreateUser(res, user))
+      .catch((error) => badRequest(res)(error));
   } catch (error) {
-    return res.status(400).json({ error });
+    return badRequest(res)(error);
   }
 }
 
