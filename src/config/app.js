@@ -1,6 +1,7 @@
 require('dotenv/config');
 require('module-alias/register');
 require('./database')(process.env.DATABASE_URL);
+
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
