@@ -4,7 +4,9 @@ const { ok, badRequest } = require('../../utils/handleResponse');
 
 function index(_, res = response) {
   try {
-    return User.find().then((users) => ok(res)(users));
+    return User.find()
+      .then((users) => ok(res)(users))
+      .catch((error) => badRequest(res)(error));
   } catch (error) {
     return badRequest(res)(error);
   }
